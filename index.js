@@ -20,19 +20,23 @@ const db = mysql.createConnection(
   );
 
   const functions = {
-    'View all departments': viewDepartments,
-    'View all roles': viewRoles,
+   
+    
     'View all employees': viewEmployees,
-    'Add a department': addDepartment,
-    'Add a role': addRole,
+
     'Add an employee': addEmployee,
-    // 'Update an employee': updateEmployee
+    'Update an employee': updateEmployee,
+    'View all departments': viewDepartments,
+    'Add a department': addDepartment,
+    'View all roles': viewRoles,
+    'Add a role': addRole
+    
   };
   
   inquirer.prompt({
     type: 'list',
     name: 'option',
-    message: 'Welcom to the Employee DB, please select an option:',
+    message: 'Welcome to the Employee DB, please select an option:',
     choices: Object.keys(functions)
   }).then((answer) => {
     const func = functions[answer.option];
@@ -184,4 +188,5 @@ const db = mysql.createConnection(
       );
     });
   }
+  
   
