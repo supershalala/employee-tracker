@@ -67,11 +67,7 @@ const db = mysql.createConnection(
 
   function addDepartment(connection) {
     inquirer.prompt([
-      {
-        type: 'input',
-        name: 'id',
-        message: 'Enter the department ID:'
-      },
+
       {
         type: 'input',
         name: 'name',
@@ -79,8 +75,8 @@ const db = mysql.createConnection(
       }
     ]).then((answer) => {
       connection.query(
-        'INSERT INTO department (id, name) VALUES (?, ?)',
-        [answer.id, answer.name],
+        'INSERT INTO department (name) VALUES (?)',
+        [ answer.name],
         (err, results) => {
           if (err) throw err;
           console.log(`${answer.name} department added.`);
