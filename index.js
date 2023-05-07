@@ -153,3 +153,35 @@ const db = mysql.createConnection(
       );
     });
   }
+
+  function updateEmployee(connection) {
+    inquirer.prompt([
+      {
+        type: 'number',
+        name: 'id',
+        message: 'Enter the ID of the employee you want to update'
+      },
+      {
+        type: 'list',
+        name: 'field',
+        message: 'Which field do you want to update?',
+        choices: ['first_name', 'last_name', 'role_id', 'manager_id']
+      },
+      {
+        type: 'input',
+        name: 'value',
+        message: 'Enter the new value for this field'
+      }
+    ]).then((answers) => {
+      connection.query(
+        `UPDATE employee SET ${answers.field} = ? WHERE id = ?`,
+        [answers.value, answers.id],
+        (err, results) => {
+          if (err) throw err;
+          console.log(`Employee with ID ${answers.id} has been updated.`);
+          connection.end();
+        }
+      );
+    });
+  }
+  
