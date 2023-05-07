@@ -23,7 +23,7 @@ const db = mysql.createConnection(
     'View all departments': viewDepartments,
     'View all roles': viewRoles,
     'View all employees': viewEmployees,
-    // 'Add a department': addDepartment,
+    'Add a department': addDepartment,
     // 'Add a role': addRole,
     // 'Add an employee': addEmployee,
     // 'Update an employee': updateEmployee
@@ -62,6 +62,31 @@ const db = mysql.createConnection(
         console.table(results);
         connection.end();
 
+    });
+  }
+
+  function addDepartment(connection) {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'id',
+        message: 'Enter the department ID:'
+      },
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Enter the name of the department:'
+      }
+    ]).then((answer) => {
+      connection.query(
+        'INSERT INTO department (id, name) VALUES (?, ?)',
+        [answer.id, answer.name],
+        (err, results) => {
+          if (err) throw err;
+          console.log(`${answer.name} department added.`);
+          connection.end();
+        }
+      );
     });
   }
   
