@@ -21,8 +21,8 @@ const db = mysql.createConnection(
 
   const functions = {
     'View all departments': viewDepartments,
-    // 'View all roles': viewRoles,
-    // 'View all employees': viewEmployees,
+    'View all roles': viewRoles,
+    'View all employees': viewEmployees,
     // 'Add a department': addDepartment,
     // 'Add a role': addRole,
     // 'Add an employee': addEmployee,
@@ -44,6 +44,24 @@ const db = mysql.createConnection(
       if (err) throw err;
       console.table(results, ['id', 'name']);
       connection.end();
+    });
+  }
+
+  function viewRoles(connection) {
+    connection.query('SELECT * FROM role', (err,results) => {
+        if (err) throw err;
+        console.table(results);
+        connection.end();
+
+    });
+  }
+  
+  function viewEmployees(connection) {
+    connection.query('SELECT * FROM employee', (err,results) => {
+        if (err) throw err;
+        console.table(results);
+        connection.end();
+
     });
   }
   
