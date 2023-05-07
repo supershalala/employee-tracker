@@ -24,7 +24,7 @@ const db = mysql.createConnection(
     'View all roles': viewRoles,
     'View all employees': viewEmployees,
     'Add a department': addDepartment,
-    // 'Add a role': addRole,
+    'Add a role': addRole,
     // 'Add an employee': addEmployee,
     // 'Update an employee': updateEmployee
   };
@@ -84,6 +84,36 @@ const db = mysql.createConnection(
         (err, results) => {
           if (err) throw err;
           console.log(`${answer.name} department added.`);
+          connection.end();
+        }
+      );
+    });
+  }
+  
+  function addRole(connection) {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'title',
+        message: 'Enter the title of the role:'
+      },
+      {
+        type: 'input',
+        name: 'salary',
+        message: 'Enter the salary of the role:'
+      },
+      {
+        type: 'input',
+        name: 'department_id',
+        message: 'Enter the department ID for the role:'
+      }
+    ]).then((answer) => {
+      connection.query(
+        'INSERT INTO role (id, title, salary, department_id) VALUES (?, ?, ?, ?)',
+        [answer.id, answer.title, answer.salary, answer.department_id],
+        (err, results) => {
+          if (err) throw err;
+          console.log(`${answer.title} role added.`);
           connection.end();
         }
       );
