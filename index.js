@@ -25,7 +25,7 @@ const db = mysql.createConnection(
     'View all employees': viewEmployees,
     'Add a department': addDepartment,
     'Add a role': addRole,
-    // 'Add an employee': addEmployee,
+    'Add an employee': addEmployee,
     // 'Update an employee': updateEmployee
   };
   
@@ -115,4 +115,41 @@ const db = mysql.createConnection(
       );
     });
   }
+
+
   
+  function addEmployee(connection) {
+    inquirer.prompt([
+      {
+        type: 'input',
+        name: 'firstName',
+        message: 'Enter New Employee First Name'
+      },
+      {
+        type: 'input',
+        name: 'lastName',
+        message: 'Enter New Employee Last Name'
+      },
+      {
+        type: 'number',
+        name: 'role',
+        message: 'Enter New Employee Role ID'
+      },
+      {
+        type: 'number',
+        name: 'manager',
+        message: 'If there is a manager enter their ID if not just hit enter'
+      }
+    ]).then((answer) => {
+        const managerId = answer.manager ? answer.manager : null;
+      connection.query(
+        'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
+        [answer.firstName, answer.lastName, answer.role, managerId],
+        (err, results) => {
+          if (err) throw err;
+          console.log(`${answer.firstName} ${answer.lastName} has been added as a new employee.`);
+          connection.end();
+        }
+      );
+    });
+  }
