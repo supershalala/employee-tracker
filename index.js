@@ -50,24 +50,33 @@ const db = mysql.createConnection(
       connection.end();
     });
   }
-
   function viewRoles(connection) {
-    connection.query('SELECT * FROM role', (err,results) => {
-        if (err) throw err;
-        console.table(results);
-        connection.end();
-
+    const query = `
+      SELECT r.id, r.title, r.salary, d.id AS department_id, d.name AS department
+      FROM role r
+      INNER JOIN department d ON r.department_id = d.id
+    `;
+    connection.query(query, (err, results) => {
+      if (err) throw err;
+      console.table(results);
+      connection.end();
     });
   }
   
   function viewEmployees(connection) {
-    connection.query('SELECT * FROM employee', (err,results) => {
-        if (err) throw err;
-        console.table(results);
-        connection.end();
-
+    const query = `
+      SELECT e.id, e.first_name, e.last_name, r.title, r.salary, d.name AS department
+      FROM employee e
+      INNER JOIN role r ON e.role_id = r.id
+      INNER JOIN department d ON r.department_id = d.id
+    `;
+    connection.query(query, (err, results) => {
+      if (err) throw err;
+      console.table(results);
+      connection.end();
     });
   }
+  
 
   function addDepartment(connection) {
     inquirer.prompt([
